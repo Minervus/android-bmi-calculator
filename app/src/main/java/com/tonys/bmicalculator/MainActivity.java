@@ -16,11 +16,10 @@ public class MainActivity extends AppCompatActivity {
 
     private RadioButton radioMale;
     private RadioButton radioFemale;
-    private EditText viewById;
-    private EditText ageText;
-    private EditText feetText;
-    private EditText inchesText;
-    private EditText weightText;
+    private EditText ageEditText;
+    private EditText feetEditText;
+    private EditText inchesEditText;
+    private EditText weightEditText;
     private Button calculateButton;
     private TextView resultText;
 
@@ -35,27 +34,49 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void findViews(){
-        radioMale = findViewById(R.id.radio_button_male);
+        radioMale = findViewById(R.id.radio_button_male); // find the views on the UI
         radioFemale = findViewById(R.id.radio_button_female);
-        viewById = findViewById(R.id.text_view_age);
-        ageText = viewById;
-        feetText = findViewById(R.id.text_view_feet);
-        inchesText = findViewById(R.id.text_view_inches);
-        weightText = findViewById(R.id.text_view_weight);
+        ageEditText = findViewById(R.id.text_view_age);
+        feetEditText = findViewById(R.id.text_view_feet);
+        inchesEditText = findViewById(R.id.text_view_inches);
+        weightEditText = findViewById(R.id.text_view_weight);
         calculateButton = findViewById(R.id.button_calculate);
         resultText = findViewById(R.id.text_view_result);
     }
 
     private void setupButtonClickListener() {
-        calculateButton.setOnClickListener(new View.OnClickListener() {
+        calculateButton.setOnClickListener(new View.OnClickListener() { //listens for button clicks
             @Override
             public void onClick(View view) {
-                calculateBMI();
+                calculateBMI(); //on click - run this method
             }
         });
     }
 
     private void calculateBMI() {
+        String ageText = ageEditText.getText().toString();
+        String feetText = feetEditText.getText().toString();
+        String inchesText = inchesEditText.getText().toString();
+        String weightText = weightEditText.getText().toString();
+
+        //Convert number 'Strings' into 'int' variables
+        int age = Integer.parseInt(ageText);
+        int feet = Integer.parseInt(feetText);
+        int inches = Integer.parseInt(inchesText);
+        int weight = Integer.parseInt(weightText);
+
+        int totalInches = (feet * 12) + inches;
+
+        //Height in meters is inches multiplied by 0.0254
+        double heightInMeters = totalInches * 0.0254;
+
+        //BMI = weight * height squared
+        double bmi = weight / (heightInMeters * heightInMeters);
+
+        String bmiTextResult = String.valueOf(bmi);
+
+        resultText.setText("Your BMI is: " + bmiTextResult);
+
     }
 
 
