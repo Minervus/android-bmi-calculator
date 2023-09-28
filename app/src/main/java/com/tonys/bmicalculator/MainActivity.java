@@ -12,6 +12,8 @@ import android.widget.Toast;
 
 import org.w3c.dom.Text;
 
+import java.text.DecimalFormat;
+
 public class MainActivity extends AppCompatActivity {
 
     private RadioButton radioMale;
@@ -73,9 +75,20 @@ public class MainActivity extends AppCompatActivity {
         //BMI = weight * height squared
         double bmi = weight / (heightInMeters * heightInMeters);
 
-        String bmiTextResult = String.valueOf(bmi);
+        DecimalFormat myDecimalFormatter = new DecimalFormat("0.00");
+        String bmiTextResult = myDecimalFormatter.format(bmi);
 
-        resultText.setText("Your BMI is: " + bmiTextResult);
+        String fullResultString;
+        if (bmi < 18.5){
+            // Display underweight
+            fullResultString = bmiTextResult + "  - You are underweight";
+        } else if (bmi > 25) {
+            fullResultString = bmiTextResult + " - You are overweight";
+        } else {
+            fullResultString = bmiTextResult + " - You are a healthy weight";
+        }
+        resultText.setText(fullResultString);
+
 
     }
 
