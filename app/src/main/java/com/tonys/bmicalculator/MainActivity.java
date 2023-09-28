@@ -27,8 +27,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         findViews();
-
-
         setupButtonClickListener();
     }
 
@@ -51,19 +49,30 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
 
                 double bmiResult = calculateBMI();
-                displayBMIResult(bmiResult);
+
+
+                String ageText = ageEditText.getText().toString();
+                int age = Integer.parseInt(ageText);
+                if(age > 18){
+                    displayBMIResult(bmiResult);
+                } else {
+                    displayGuidance(bmiResult);
+                }
+
             }
         });
     }
 
+
+
     private double calculateBMI() {
-        String ageText = ageEditText.getText().toString();
+
         String feetText = feetEditText.getText().toString();
         String inchesText = inchesEditText.getText().toString();
         String weightText = weightEditText.getText().toString();
 
         //Convert number 'Strings' into 'int' variables
-        int age = Integer.parseInt(ageText);
+
         int feet = Integer.parseInt(feetText);
         int inches = Integer.parseInt(inchesText);
         int weight = Integer.parseInt(weightText);
@@ -90,6 +99,21 @@ public class MainActivity extends AppCompatActivity {
             fullResultString = bmiTextResult + " - You are overweight";
         } else {
             fullResultString = bmiTextResult + " - You are a healthy weight";
+        }
+        resultText.setText(fullResultString);
+    }
+
+    private void displayGuidance(double bmi) {
+        DecimalFormat myDecimalFormatter = new DecimalFormat("0.00");
+        String bmiTextResult = myDecimalFormatter.format(bmi);
+        String fullResultString;
+
+        if(radioMale.isChecked()){
+            fullResultString = bmiTextResult + " - As you are under 18, please consult with your doctor for bmi for boys";
+        } else if (radioFemale.isChecked()){
+            fullResultString = bmiTextResult + " - As you are under 18, please consult with your doctor for bmi for girls";
+        } else {
+            fullResultString = bmiTextResult + " - As you are under 18, please consult with your doctor for bmi";
         }
         resultText.setText(fullResultString);
     }
