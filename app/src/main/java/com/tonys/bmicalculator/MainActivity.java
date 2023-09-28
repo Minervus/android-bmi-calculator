@@ -8,9 +8,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.TextView;
-import android.widget.Toast;
-
-import org.w3c.dom.Text;
 
 import java.text.DecimalFormat;
 
@@ -35,6 +32,8 @@ public class MainActivity extends AppCompatActivity {
         setupButtonClickListener();
     }
 
+
+
     private void findViews(){
         radioMale = findViewById(R.id.radio_button_male); // find the views on the UI
         radioFemale = findViewById(R.id.radio_button_female);
@@ -50,12 +49,14 @@ public class MainActivity extends AppCompatActivity {
         calculateButton.setOnClickListener(new View.OnClickListener() { //listens for button clicks
             @Override
             public void onClick(View view) {
-                calculateBMI(); //on click - run this method
+
+                double bmiResult = calculateBMI();
+                displayBMIResult(bmiResult);
             }
         });
     }
 
-    private void calculateBMI() {
+    private double calculateBMI() {
         String ageText = ageEditText.getText().toString();
         String feetText = feetEditText.getText().toString();
         String inchesText = inchesEditText.getText().toString();
@@ -73,11 +74,14 @@ public class MainActivity extends AppCompatActivity {
         double heightInMeters = totalInches * 0.0254;
 
         //BMI = weight * height squared
-        double bmi = weight / (heightInMeters * heightInMeters);
+        return weight / (heightInMeters * heightInMeters);
 
+
+    }
+
+    private void displayBMIResult(double bmi) {
         DecimalFormat myDecimalFormatter = new DecimalFormat("0.00");
         String bmiTextResult = myDecimalFormatter.format(bmi);
-
         String fullResultString;
         if (bmi < 18.5){
             // Display underweight
@@ -88,8 +92,6 @@ public class MainActivity extends AppCompatActivity {
             fullResultString = bmiTextResult + " - You are a healthy weight";
         }
         resultText.setText(fullResultString);
-
-
     }
 
 
